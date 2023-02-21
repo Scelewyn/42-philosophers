@@ -15,8 +15,10 @@ OBJ			= ${SRC:.c=.o}
 THREADS		= -pthread
 NAME		= philo
 
+SANITIZE	= -fsanitize=thread -g3
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=thread -g3
+CFLAGS		= -Wall -Wextra -Werror 
+
 
 %.o: %.c
 	@${CC} -c ${CFLAGS} ${THREADS} $< -o $@

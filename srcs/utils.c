@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:39:59 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 13:40:52 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:55:10 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,19 @@ long	current_timestamp(void)
 	return (result);
 }
 
-void	yousleep(unsigned int time, long start)
+void	yousleep(unsigned int time, long start, t_philo *philo)
 {
-	long	sleep_time;
+	long	hungrytime;
 
-	while (1)
+	while (is_game_over(philo) == 0)
 	{
-		sleep_time = current_timestamp();
-		if (sleep_time - start >= time)
+		philo->current_time = current_timestamp();
+		hungrytime = philo->current_time - philo->last_eat;
+		if (hungrytime >= philo->settings->time_to_die)
+		{
+			kill_philosopher(philo);
+		}
+		if (philo->current_time - start >= time)
 			return ;
 	}
 }
@@ -45,9 +50,44 @@ int	ft_mini_atoi(char *str)
 		i++;
 	while (str[i] != '\0')
 	{
+		if (result > 214748364 || (result == 214748364 && str[i] - '0' > 7))
+			return (-1);
 		result = result * 10;
 		result += (str[i] - '0');
 		i++;
 	}
 	return (result);
+}
+
+int	ft_is_alnumplus(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+')
+		i++;
+	while (str[i] != '\0')
+	{
+		if (str[i] > '9' || str[i] < '0')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	ft_strlenplus(char *str)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	if (str[i] == '+')
+		i++;
+	while (str[i] != '\0')
+	{
+		count++;
+		i++;
+	}
+	return (count);
 }

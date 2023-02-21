@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:34:14 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 14:37:16 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:58:03 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_settings
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	pthread_mutex_t	max_eat_access;
 	int				max_eat_count;
 	long			start_time;
 	pthread_mutex_t	gameover_access;
@@ -39,6 +40,8 @@ typedef struct s_philo
 	long			last_eat;
 	long			current_time;
 	int				has_fork;
+	pthread_mutex_t	has_fork_mutex;
+	pthread_mutex_t	eat_count_mutex;
 	pthread_mutex_t	fork;
 	t_settings		*settings;
 	void			*next;
@@ -49,6 +52,7 @@ typedef struct s_philo
 # define GIVE 1
 
 /* main.c */
+void	philo_loop(t_philo *philo, t_philo *next);
 void	*philo_life(void *philosopher);
 int		main(int argc, char *argv[]);
 
@@ -57,11 +61,14 @@ int		philo_take_fork(t_philo *philo, t_philo *target, int mode);
 void	philo_eat(t_philo *philo, t_philo *next);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
-void	philo_loop(t_philo *philo, t_philo *next);
+void	philo_give_fork(t_philo *target);
 
 /* philo_life_utils.c */
 int		forks_available(t_philo *philo, t_philo *next);
 int		is_game_over(t_philo *philo);
+void	kill_philosopher(t_philo *philo);
+int		philo_is_full(t_philo *philo);
+int		max_eat_reached(t_philo *philo);
 
 /* init.c */
 t_philo	*lst_new(int index, t_settings *settings);
@@ -72,8 +79,10 @@ void	generate_settings(t_settings **settings, int argc, char **argv);
 
 /* utils.c */
 long	current_timestamp(void);
-void	yousleep(unsigned int time, long start);
+void	yousleep(unsigned int time, long start, t_philo *philo);
 int		ft_mini_atoi(char *str);
+int		ft_is_alnumplus(char *str);
+int		ft_strlenplus(char *str);
 
 /* threads.c */
 void	create_threads(t_philo *philosophers);
