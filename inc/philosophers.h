@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:34:14 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 13:44:02 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:37:16 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_settings
 	int				time_to_sleep;
 	int				max_eat_count;
 	long			start_time;
+	pthread_mutex_t	gameover_access;
+	int				gameover;
 	pthread_mutex_t	print;
 }	t_settings;
 
@@ -43,15 +45,23 @@ typedef struct s_philo
 	void			*start;
 }	t_philo;
 
+# define TAKE 0
+# define GIVE 1
+
 /* main.c */
 void	*philo_life(void *philosopher);
 int		main(int argc, char *argv[]);
 
 /* philo_life.c */
+int		philo_take_fork(t_philo *philo, t_philo *target, int mode);
 void	philo_eat(t_philo *philo, t_philo *next);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
-void	*philo_life(void *philosopher);
+void	philo_loop(t_philo *philo, t_philo *next);
+
+/* philo_life_utils.c */
+int		forks_available(t_philo *philo, t_philo *next);
+int		is_game_over(t_philo *philo);
 
 /* init.c */
 t_philo	*lst_new(int index, t_settings *settings);

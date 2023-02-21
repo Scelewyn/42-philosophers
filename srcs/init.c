@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:36:45 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 13:38:32 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:30:32 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_philo	*lst_new(int index, t_settings *settings)
 	new_philo->settings = settings;
 	new_philo->next = NULL;
 	new_philo->start = NULL;
+	new_philo->has_fork = 1;
 	pthread_mutex_init(&new_philo->fork, NULL);
 	return (new_philo);
 }
@@ -51,7 +52,6 @@ void	lst_add_back(t_philo **lst, t_philo *new)
 	else
 	{
 		begin->next = new;
-		begin->start = *lst;
 	}
 }
 
@@ -66,6 +66,8 @@ void	init_philos(t_philo **begin, char **argv, t_settings **settings)
 	while (i < max)
 	{
 		new = lst_new(i + 1, *settings);
+		if (i > 0)
+			new->start = begin;
 		lst_add_back(begin, new);
 		i++;
 	}
@@ -88,4 +90,6 @@ void	generate_settings(t_settings **settings, int argc, char **argv)
 	gettimeofday(&tv, NULL);
 	mseconds = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	(*settings)->start_time = mseconds;
+	pthread_mutex_init(&(*settings)->gameover_access, NULL);
+	(*settings)->gameover = 0;
 }

@@ -6,7 +6,7 @@ CYAN	= \033[0;36m
 RESET	= \033[0m
 
 SRC_DIR	= ./srcs/
-SRC_FILES	=  philosophers.c philo_life.c init.c threads.c utils.c
+SRC_FILES	=  philosophers.c philo_life.c init.c threads.c utils.c philo_life_utils.c
 
 SRC			= ${addprefix ${SRC_DIR}, ${SRC_FILES}}
 OBJ			= ${SRC:.c=.o}
