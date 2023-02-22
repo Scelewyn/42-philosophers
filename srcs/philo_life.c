@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:42:56 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 19:03:53 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/22 12:43:47 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	philo_take_fork(t_philo *philo, t_philo *target, int mode)
 			target->has_fork = 0;
 			pthread_mutex_unlock(&target->has_fork_mutex);
 			pthread_mutex_lock(&philo->settings->print);
-			printf("\033[1;37m%ld ms\t: Philosopher %d has taken a fork.\033\n",
+			printf("%ld ms\t: \033[1;33mPhilosopher %d has taken a fork.\033[0m\n",
 				philo->current_time - philo->settings->start_time,
 				philo->philo_index);
 			pthread_mutex_unlock(&philo->settings->print);
@@ -56,7 +56,7 @@ void	philo_eat(t_philo *philo, t_philo *next)
 		philo->eat_count++;
 		pthread_mutex_unlock(&philo->eat_count_mutex);
 		pthread_mutex_lock(&philo->settings->print);
-		printf("\033[1;37m%ld ms\t: Philosopher %d is eating.\n",
+		printf("%ld ms\t: \033[1;32mPhilosopher %d is eating.\033[0m\n",
 			philo->current_time - philo->settings->start_time,
 			philo->philo_index);
 		pthread_mutex_unlock(&philo->settings->print);
@@ -75,7 +75,7 @@ void	philo_sleep(t_philo *philo)
 	if (is_game_over(philo))
 		return ;
 	pthread_mutex_lock(&philo->settings->print);
-	printf("\033[1;37m%ld ms\t: Philosopher %d is sleeping.\n",
+	printf("%ld ms\t: \033[1;34mPhilosopher %d is sleeping.\033[0m\n",
 		philo->current_time - philo->settings->start_time,
 		philo->philo_index);
 	pthread_mutex_unlock(&philo->settings->print);
@@ -89,7 +89,7 @@ void	philo_think(t_philo *philo)
 		return ;
 	philo->current_time = current_timestamp();
 	pthread_mutex_lock(&philo->settings->print);
-	printf("\033[1;37m%ld ms\t: Philosopher %d is thinking.\n",
+	printf("%ld ms\t: \033[1;37mPhilosopher %d is thinking.\033[0m\n",
 		philo->current_time - philo->settings->start_time,
 		philo->philo_index);
 	pthread_mutex_unlock(&philo->settings->print);

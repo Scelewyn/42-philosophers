@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:55 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 19:12:17 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/22 13:03:40 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ int	data_validation(int argc, char **argv)
 	int	i;
 
 	i = 1;
+	if (argc < 5 || argc > 6)
+	{
+		printf("Invalid number of arguments\n");
+		return (1);
+	}
 	while (i < argc)
 	{
 		if (ft_is_alnumplus(argv[i]) == 0 || ft_strlenplus(argv[i]) > 10)
@@ -100,11 +105,6 @@ int	main(int argc, char *argv[])
 	t_settings	*settings;
 
 	philosophers = NULL;
-	if (argc < 5 || argc > 6)
-	{
-		printf("You died.\n");
-		return (1);
-	}
 	if (data_validation(argc, argv) == 1)
 		return (1);
 	generate_settings(&settings, argc, argv);

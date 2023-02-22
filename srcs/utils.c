@@ -6,7 +6,7 @@
 /*   By: mpouce <mpouce@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:39:59 by mpouce            #+#    #+#             */
-/*   Updated: 2023/02/21 18:55:10 by mpouce           ###   ########.fr       */
+/*   Updated: 2023/02/22 13:13:33 by mpouce           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	ft_mini_atoi(char *str)
 
 	i = 0;
 	result = 0;
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
+		i++;
 	if (str[i] == '+')
 		i++;
 	while (str[i] != '\0')
@@ -64,6 +67,9 @@ int	ft_is_alnumplus(char *str)
 	int	i;
 
 	i = 0;
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
+		i++;
 	if (str[i] == '+')
 		i++;
 	while (str[i] != '\0')
@@ -82,6 +88,9 @@ int	ft_strlenplus(char *str)
 
 	count = 0;
 	i = 0;
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
+		i++;
 	if (str[i] == '+')
 		i++;
 	while (str[i] != '\0')
